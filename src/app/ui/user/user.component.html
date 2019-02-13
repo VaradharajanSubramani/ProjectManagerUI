@@ -1,0 +1,66 @@
+<form ngNativeValidate #myForm="ngForm" (ngSubmit)="AddUser(); myForm.reset();">   
+  <input type="hidden" [(ngModel)]="user.UserID"  id="usrid" name="usrid"/> 
+  <div class="form-group row">
+      <label for="fname"  class="col-sm-2 col-form-label" style="font-weight:bold">First Name:</label>
+      <div class="col-sm-4">
+      <input type="text" placeholder="" required [(ngModel)]="user.FirstName" class="form-control" id="input" name="fname" />
+      </div>
+  </div>
+  <div class="form-group row">
+      <label for="fname"  class="col-sm-2 col-form-label" style="font-weight:bold">Last Name:</label>
+      <div class="col-sm-4">
+      <input type="text" placeholder="" required [(ngModel)]="user.LastName" class="form-control" id="input" name="lname" />
+      </div>
+  </div>
+  <div class="form-group row">
+      <label for="fname"  class="col-sm-2 col-form-label" style="font-weight:bold">Employee ID:</label>
+      <div class="col-sm-4">
+      <input type="number" placeholder="" required [(ngModel)]="user.EmployeeID" class="form-control" id="input" name="empid" />
+      </div>
+  </div>
+  <div class="form-group row">
+      <label for="fname"  class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-4">
+       <input type="submit" id="btnAdd" class="btn btn-primary" [value]="isEdit?'Edit':'Add'"/> &nbsp;&nbsp;
+        <button type="button"  class="btn btn-primary" id="input">Reset</button>
+      </div>
+  </div>
+</form>
+<hr class="style1">
+<div>
+    <div class="form-group row">
+        <input type="text" placeholder="Search.." class="form-control col-sm-2" (keyup)="SearchUsers($event.target.value)" on/>&nbsp;&nbsp;
+        <label for="name" class="col-form-label">Sort:</label> &nbsp;
+        <input type="button"  class="btn btn-secondary btn-md" id="btnFname" name="fname" value="FirstName" (click)="SortingUsers($event.target.value)" /> &nbsp;&nbsp;
+        <input type="button"  class="btn btn-secondary btn-md" id="btnLname" name="lname" value="LastName" (click)="SortingUsers($event.target.value)"/> &nbsp;&nbsp;
+        <input type="button"  class="btn btn-secondary btn-md" id="btnEid" name="empid" value="EmployeeID" (click)="SortingUsers($event.target.value)"/> &nbsp;&nbsp;        
+    </div>
+    <hr class="style2">
+
+    <div class="container-fluid" *ngFor="let item of users">
+        <div class="row" >
+          <div class ="col-sm-5 bgcolor">
+             FirstName: {{item.FirstName}}
+          </div>
+          <div class ="col-sm">
+             <input type="button" class="btn btn-secondary btn-sm" name="ed" value="Edit" (click)="EditUser(item)" />
+            </div>
+        </div> 
+        <br>
+        <div class="row">
+            <div class ="col-sm-5 bgcolor">
+               LastName: {{item.LastName}}
+            </div>
+            <div class ="col-sm">
+               <input type="button" class="btn btn-secondary btn-sm" name="ed" value="Delete" (click)="DeleteUser(item.UserID)" />
+              </div>
+          </div>
+          <br>  
+          <div class="row">
+              <div class ="col-sm-5 bgcolor">
+                 EmployeeID: {{item.EmployeeID}}
+              </div>            
+          </div> 
+          <hr class="style2">
+      </div>
+</div>

@@ -1,0 +1,123 @@
+
+<form ngNativeValidate #myForm="ngForm" (ngSubmit)="Addproject(); myForm.reset();">
+  <div class="form-group row"></div> 
+  <div class="form-group row">
+    <label for="Pname"  class="col-sm-1 col-form-label">Project:</label>
+    <div class="col-sm-5">
+    <input type="text" placeholder="Enter Project name" required [(ngModel)]="proj.ProjectName" class="form-control" id="input" name="taskname" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="date" class="col-sm-1 col-form-label"></label>
+    <div class="col-sm-6">
+      <div class="">
+       <!-- <label class=""  style="font-size:12px"><input type="checkbox" (change)="enableDate()"/>set start and end date </label>
+       <input type="text" placeholder="Start date" class="col-sm-3"  onfocus="(this.type='date')"  [disabled]="datevisibility" [(ngModel)]="proj.StartDate" name="startdate"/> &nbsp;
+       <input type="text" placeholder="End date" class="col-sm-3" onfocus="(this.type='date')" [disabled]="datevisibility" [(ngModel)]="proj.EndDate" name="enddate"/> -->
+       <label class=""  style="font-size:12px"><input type="checkbox" (change)="enableDate()"/>set start and end date </label>
+       <input type="date" placeholder="Start date" class="col-sm-4"  [disabled]="datevisibility" [ngModel]="proj.StartDate | date: 'yyyy-MM-dd'" (ngModelChange)="proj.StartDate = $event" name="startdate" value=""/> &nbsp;
+       <input type="date" placeholder="End date" class="col-sm-4"  [disabled]="datevisibility" [ngModel]="proj.EndDate | date: 'yyyy-MM-dd'" (ngModelChange)="proj.EndDate = $event" name="enddate"/>
+       </div>      
+    </div>
+  </div>
+  <div class="form-group row">
+      <label for="priority"  class="col-sm-1 col-form-label">Priority:</label>
+      <div class="col-sm-5">
+          <input type="range" [(ngModel)]="proj.Priority" class="form-control" id="input" name="priority" min="1" max="30" required/>
+      </div>
+  </div>
+  <div class="form-group row">
+      <label for="Pname"  class="col-sm-1 col-form-label">Manager:</label>
+      <div class="col-sm-4">
+        <input type="hidden" [(ngModel)]="proj.UserID" name="userid">
+      <input type="text" placeholder="Choose user" disabled required  class="form-control" id="input" name="managerName"  [(ngModel)]="proj.UserName" />      
+      </div>
+      <div>
+          <input type="button" class="btn btn-secondary" name="one" data-toggle="modal" data-target="#myModal" value="search" (click)="GetUsers()" [disabled]="isEdit">
+      </div>      
+  </div>
+  <div class="form-group row">
+      <label for="fname"  class="col-sm-2 col-form-label"></label>
+      <div class="col-sm-5">
+       <input type="submit" id="btnAdd" class="btn btn-primary" [value]="isEdit?'Update':'Add'"/> &nbsp;&nbsp;
+        <button type="button"  class="btn btn-primary" id="input">Reset</button>
+      </div>
+  </div>
+</form>
+  <hr class="style1">
+<div class="col-align">
+  <div class="form-group row">
+      <input type="text" placeholder="Search project.." class="form-control col-sm-6" (keyup)="SearchProjects($event.target.value)" on/>&nbsp;&nbsp;
+  </div>
+  <div class="form-group row-sm-6">
+      <label for="name" class="col-form-label">Sort:</label> &nbsp;
+      <input type="button"  class="btn btn-secondary btn-sm" id="btnSdate" name="sdate" value="StartDate" (click)="SortingProject($event.target.value)" /> &nbsp;&nbsp;
+      <input type="button"  class="btn btn-secondary btn-sm" id="btnEdate" name="edate" value="EndDate" (click)="SortingProject($event.target.value)"/> &nbsp;&nbsp;
+      <input type="button"  class="btn btn-secondary btn-sm" id="btnpri" name="pri" value="Priority" (click)="SortingProject($event.target.value)"/> &nbsp;&nbsp;        
+      <input type="button"  class="btn btn-secondary btn-sm" id="btnComp" name="comp" value="Completed" (click)="SortingProject($event.target.value)"/> 
+  </div>
+  <hr class="style2">  
+  <div class="container-fluid">
+  <div class="row" *ngFor="let item of projects" >
+    <div class="bgcolor col-sm-4 p-2 m-2">
+        <label for='pname' class="fontsize1">Project Name: {{item.ProjectName}}</label>  <br>
+        <label for='pname' class="fontsize1"> No of tasks: {{item.NoOfTasks}}   &nbsp; &nbsp; Completed: {{item.CompletedTasks}} </label><br>
+        <label for='pname' class="fontsize1">Start Date: {{item.StartDate | date: 'yyyy-MM-dd'}}  &nbsp; &nbsp; End date: {{item.EndDate | date: 'yyyy-MM-dd'}} </label>
+    </div>
+    <div class="col-sm-1 p-2 m-2 bgcolor">
+     <label class="fontsize1">Priority</label> <br>
+      <div class="fontsize2">{{item.Priority}} </div>
+    </div>
+    <div class="col-sm-2 p-2 m-2">
+      <div>
+        <input type="button" class="btn btn-secondary btn-sm" name="ed" value="Edit" (click)="EditProject(item.ProjectID)" />
+      </div> <br>
+        <input type="button" class="btn btn-secondary btn-sm" name="ed" value="Suspend" (click)="SuspendProject(item.ProjectID)" />
+    </div>
+    
+  </div>
+  <hr class="style2">
+  </div> 
+ 
+</div>
+
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Select User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">        
+          <table class="table table-striped table-bordered">
+            <thead>
+              <td scope="col"></td>
+              <td scope="col" style="font-weight:bold">  First Name  </td>
+              <td scope="col" style="font-weight:bold">  Last Name  </td>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usr of users">
+              <td><input type="radio" name="gropu1" value="{{usr.UserID}}" (change)="onItemChange(usr)"> </td>
+              <td>{{usr.FirstName}}</td>
+              <td>{{usr.LastName}}</td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="SelectUser()">Ok</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+

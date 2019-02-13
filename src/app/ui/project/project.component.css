@@ -1,0 +1,21 @@
+.col-align{
+    margin: 30px;
+    float: none;    
+}
+hr.style1{
+    border-top: 2px solid black;
+}
+
+hr.style2{
+    border-top: 1px dashed black;
+}
+
+div.bgcolor{
+    background-color:lightgray;    
+}
+label.fontsize1{
+    font-size: 12px;
+}
+.fontsize2{
+ font-size: 25px;    
+}
