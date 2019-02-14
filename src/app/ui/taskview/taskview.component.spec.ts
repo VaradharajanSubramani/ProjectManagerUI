@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TaskviewComponent } from './taskview.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing'
+import { FormsModule } from '@angular/forms';
 
 describe('TaskviewComponent', () => {
   let component: TaskviewComponent;
@@ -8,7 +11,8 @@ describe('TaskviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TaskviewComponent ]
+      declarations: [ TaskviewComponent ],
+      imports: [ HttpClientTestingModule,RouterTestingModule,FormsModule ] 
     })
     .compileComponents();
   }));
@@ -22,4 +26,10 @@ describe('TaskviewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  it('End Tasks',()=>   {
+    const res = component.EndTask(1);
+    expect(true).toBeTruthy();
+ }); 
+ 
 });
