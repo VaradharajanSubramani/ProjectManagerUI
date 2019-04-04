@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/service/shared.service';
-import {Task} from 'src/app/Model/task';
+import {Task} from 'src/app/model/task';
 
 @Component({
   selector: 'app-taskview',
